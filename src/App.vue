@@ -1,19 +1,14 @@
 <template>
   <div id="app">
-    <ul>
-      <li v-for="d in data" :key="d">
-        {{ d }}
-      </li>
-    </ul>
-    <button @click="getTableKeys"> Get Keys </button>
     <button @click="download_csv(0)"> Students Csv</button>
     <button @click="download_csv(1)"> Tutorials Csv</button>
-
-
+    <hr>
+    <app-merge></app-merge>
   </div>
 </template>
 <script>
 import axios from "axios";
+import Merge from "./Merge.vue"
 export default {
   name: "App",
   data() {
@@ -21,6 +16,9 @@ export default {
       data: {},
       tableKeys:[]
     }
+  },
+  components: {
+    appMerge: Merge
   },
   created(){
     axios.get('src/data.json')
@@ -37,6 +35,7 @@ export default {
         });
       },
       download_csv(index) {
+        this.getTableKeys();
         const data =this.data[this.tableKeys[index]];
         var csv='';
         //Add Key with ',' in csv 
